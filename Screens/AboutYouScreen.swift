@@ -41,22 +41,7 @@ struct AboutYouScreen: View {
 
     var body: some View {
         VStack(spacing: 0) {
-
-            // ---------- Top bar ----------
-            Group {
-                HStack {
-                    Button(action: onBack) {
-                        Image(systemName: "chevron.backward")
-                            .foregroundStyle(.black)
-                            .imageScale(.large)
-                            .padding(8)
-                    }
-                    Spacer()
-                }
-                .padding(.horizontal, 12)
-                .padding(.top, 6)
-                .background(Background)
-            }
+    
 
             // ---------- Contenido scroll ----------
             ScrollView {

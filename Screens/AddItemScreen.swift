@@ -27,12 +27,6 @@ struct AddItemScreen: View {
         VStack(spacing: 0) {
             // ---------- TopBar ----------
             HStack {
-                Button(action: onBack) {
-                    Image(systemName: "chevron.backward")
-                        .foregroundStyle(.black)
-                        .imageScale(.large)
-                        .padding(8)
-                }
                 Spacer()
                 Image("styla")
                     .resizable()

@@ -1,4 +1,3 @@
-//
 //  WelcomeScreen.swift
 //  StylaSwift
 //
@@ -17,6 +16,10 @@ private struct Slide: Hashable {
 
 private let IMAGE_HEIGHT: CGFloat = 520
 private let abhayaRegular = "AbhayaLibre-Regular"   // nombre de la fuente
+
+// Paleta idéntica a Signup
+private let bgColor   = Color(hex: 0xEDE7D4)
+private let primary   = Color(hex: 0x9B5C2E)
 
 struct WelcomeScreen: View {
     // Callbacks (igual que en Kotlin)
@@ -70,8 +73,8 @@ struct WelcomeScreen: View {
                             Dot(
                                 size: 12,
                                 color: currentPage == idx
-                                ? Color.secondary
-                                : Color.secondary.opacity(0.35)
+                                ? primary
+                                : primary.opacity(0.35)
                             )
                         }
                     }
@@ -85,17 +88,17 @@ struct WelcomeScreen: View {
                         .font(.custom(abhayaRegular, size: 20))
                         .multilineTextAlignment(.center)
                         .lineSpacing(4)
-                        .foregroundColor(Color.primary)
+                        .foregroundStyle(.black)
 
                     Spacer().frame(height: 50)
 
-                    // Botones
+                    // Botones (mismo color primario que en Signup)
                     HStack(spacing: 12) {
-                        ElevatedButton(
+                        PrimaryButton(
                             title: "Crear cuenta",
                             action: onCreateAccountClick
                         )
-                        ElevatedButton(
+                        PrimaryButton(
                             title: "Inicio de sesión",
                             action: onLoginClick
                         )
@@ -109,7 +112,7 @@ struct WelcomeScreen: View {
                 BrandsStrip()
                     .frame(height: 76)
                     .frame(maxWidth: .infinity)
-                    .background(Color.secondary.opacity(0.15))
+                    .background(primary)
 
                 Spacer().frame(height: 24)
 
@@ -132,8 +135,8 @@ struct WelcomeScreen: View {
             }
             .padding(.vertical, 12)
         }
-        // Aproximación a primaryContainer de tu tema
-        .background(Color(.systemGroupedBackground))
+        // Fondo igual que Signup
+        .background(bgColor)
     }
 }
 
@@ -152,8 +155,8 @@ private struct Dot: View {
     }
 }
 
-/// Botón elevado parecido a ElevatedButton de Material3
-private struct ElevatedButton: View {
+/// Botón primario con la misma estética de Signup (relleno primary y texto blanco)
+private struct PrimaryButton: View {
     let title: String
     let action: () -> Void
 
@@ -161,15 +164,16 @@ private struct ElevatedButton: View {
         Button(action: action) {
             Text(title)
                 .font(.custom(abhayaRegular, size: 17))
+                .fontWeight(.bold)
                 .frame(maxWidth: .infinity, minHeight: 56)
         }
         .buttonStyle(.plain)
         .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color(.systemBackground))
-                .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 2)
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .fill(primary)
+                .shadow(color: .black.opacity(0.3), radius: 15, x: 0, y: 6)
         )
-        .foregroundColor(Color.primary)
+        .foregroundStyle(.white)
     }
 }
 
@@ -199,7 +203,7 @@ private struct BrandLogo: View {
         } else {
             Text(fallback)
                 .font(.custom(abhayaRegular, size: 17))
-                .foregroundColor(.secondary)
+                .foregroundStyle(.black.opacity(0.6))
         }
     }
 }
@@ -227,6 +231,7 @@ private struct PromoRow: View {
                         .font(.custom(abhayaRegular, size: 20))
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity)
+                        .foregroundStyle(.black)
                 }
             }
 
@@ -244,8 +249,20 @@ private struct PromoRow: View {
                         .font(.custom(abhayaRegular, size: 20))
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity)
+                        .foregroundStyle(.black)
                 }
             }
         }
+    }
+}
+
+// ---------------- Utilidades ----------------
+private extension Color {
+    init(hex: UInt, alpha: Double = 1) {
+        self.init(.sRGB,
+                  red: Double((hex >> 16) & 0xFF) / 255,
+                  green: Double((hex >> 8) & 0xFF) / 255,
+                  blue: Double(hex & 0xFF) / 255,
+                  opacity: alpha)
     }
 }

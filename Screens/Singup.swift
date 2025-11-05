@@ -39,19 +39,6 @@ struct Signup: View {
                     .frame(height: geo.size.height * 0.25)
                     .frame(maxHeight: .infinity, alignment: .bottom)
 
-                    // Back
-                    HStack {
-                        Button(action: onBack) {
-                            Image(systemName: "chevron.backward")
-                                .foregroundStyle(.black)
-                                .imageScale(.large)
-                                .padding(12)
-                                .background(.thinMaterial, in: Circle())
-                        }
-                        Spacer()
-                    }
-                    .padding(16)
-                    .frame(maxHeight: .infinity, alignment: .top)
 
                     // Logo centrado (desplazado hacia abajo)
                     Image("styla")
@@ -95,7 +82,7 @@ struct Signup: View {
                             .font(.custom(abhayaRegular, size: 17))
                             .fontWeight(.bold)
                             .foregroundStyle(.white)
-                            .frame(maxWidth: .infinity)
+                            .frame(maxWidth: 260)
                             .frame(height: 56)
                     }
                     .background(primary)
@@ -154,4 +141,3 @@ private extension Color {
     }
 }
 
-// ---------------- Preview ----------------

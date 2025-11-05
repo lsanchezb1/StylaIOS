@@ -37,15 +37,7 @@ struct LoginScreen: View {
         ZStack(alignment: .topLeading) {
             bg.ignoresSafeArea()
 
-            // Flecha regresar
-            Button(action: onNavigateBack) {
-                Image(systemName: "chevron.backward")
-                    .foregroundStyle(.black)
-                    .imageScale(.large)
-                    .padding(.top, 8)
-                    .padding(.leading, 0)
-            }
-
+            
             VStack {
                 // ----- Cabecera con fotos y logo -----
                 HStack(spacing: 20) {

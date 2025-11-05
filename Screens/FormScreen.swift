@@ -44,22 +44,8 @@ struct FormScreen: View {
             bg.ignoresSafeArea()
 
             VStack(spacing: 0) {
-                // Top bar
-                HStack {
-                    Button(action: onBack) {
-                        Image(systemName: "chevron.backward")
-                            .foregroundStyle(.black)
-                            .imageScale(.large)
-                            .padding(8)
-                    }
-                    Spacer()
-                }
-                .padding(.horizontal, 4)
-
                 ScrollView {
                     VStack(spacing: 0) {
-                        Spacer().frame(height: 88)
-
                         // ---------- Sección: títulos ----------
                         Group {
                             Text("Vamos a\nregistrarte")
@@ -204,18 +190,18 @@ struct FormScreen: View {
                         }
                     }
                     .padding(.horizontal, 24)
-                    .padding(.top, 12)
-                    .padding(.bottom, 92)
+                    .padding(.top, 8)
+                    .padding(.bottom, 140)   // <— MÁS ESPACIO PARA QUE NO LO TAPE EL LOGO
                 }
                 .background(bg)
                 .scrollIndicators(.hidden)
 
-                // Logo inferior
+                // Logo inferior más pequeño
                 Image("stylalogo")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 200, height: 200)
-                    .padding(.bottom, 12)
+                    .frame(width: 180, height: 150)   // antes 200x200
+                    .padding(.bottom, 6)
             }
 
             // -------- Popup de éxito --------
@@ -370,3 +356,4 @@ private extension Color {
                   opacity: alpha)
     }
 }
+

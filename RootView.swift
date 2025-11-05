@@ -63,7 +63,9 @@ struct RootView: View {
 
                 case .start:
                     StartScreen(
-                        onOpenCamera: { router.navigate(.camera) }
+                        onOpenCamera: { router.navigate(.camera) },
+                        // 👇 cuando toque "Quiero vender mi ropa"
+                        onOpenAddItem: { router.navigate(.camera) }
                     )
 
                 case .camera:
@@ -74,3 +76,4 @@ struct RootView: View {
         .environmentObject(router)
     }
 }
+

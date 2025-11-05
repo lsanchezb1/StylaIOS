@@ -57,3 +57,9 @@ Styla es la aplicación que está revolucionando la forma en la que vivimos la m
         .background(StylaBackground.ignoresSafeArea())
     }
 }
+
+struct Creditos_Previews: PreviewProvider {
+    static var previews: some View {
+        Creditos()
+    }
+}

@@ -1,3 +1,4 @@
+//
 //  StartScreen.swift
 //  StylaSwift
 //
@@ -13,17 +14,27 @@ import UIKit
 private let abhayaRegular = "AbhayaLibre-Regular"
 
 private enum CategoryIcon { case sfSymbol(String), asset(String) }
-private struct CategoryItem: Identifiable { let id = UUID(); let name: String; let icon: CategoryIcon }
-private struct CarouselItem: Identifiable { let id = UUID(); let title: String; let description: String; let imageName: String }
+private struct CategoryItem: Identifiable {
+    let id = UUID()
+    let name: String
+    let icon: CategoryIcon
+}
+private struct CarouselItem: Identifiable {
+    let id = UUID()
+    let title: String
+    let description: String
+    let imageName: String
+}
 
 struct StartScreen: View {
-    // Navegación (abre cámara)
+    // Navegación
     let onOpenCamera: () -> Void
+    let onOpenAddItem: () -> Void   // 👈 nueva closure
 
     // Colores
-    private let primaryColor = Color(red: 0x9C/255.0, green: 0x5A/255.0, blue: 0x2D/255.0)
-    private let backgroundColor = Color(red: 0xF3/255.0, green: 0xE9/255.0, blue: 0xD4/255.0)
-    private let cardColor = Color(red: 0xE7/255.0, green: 0xDC/255.0, blue: 0xCC/255.0)
+    private let primaryColor = Color(hex: 0x9C5A2D)
+    private let backgroundColor = Color(hex: 0xF3E9D4)
+    private let cardColor = Color(hex: 0xE7DCCC)
 
     // Estado
     @State private var loading: Bool = false
@@ -49,44 +60,52 @@ struct StartScreen: View {
     private let timer = Timer.publish(every: 3.0, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
+        GeometryReader { geo in
+            ZStack(alignment: .top) {
 
-                    // ---------- Sección 1: TopBar + loading ----------
-                    Group {
-                        HStack {
-                            Spacer()
-                            Image("styla")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 60)
-                            Spacer()
-                            Button(action: { /* menú */ }) {
-                                Image(systemName: "line.3.horizontal")
-                                    .foregroundStyle(.black)
-                                    .imageScale(.large)
+                // ====== CONTENIDO ======
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+
+                        // ---------- Grupo 1: Top bar ----------
+                        Group {
+                            HStack {
+                                Button(action: {}) {
+                                    Text("Back")
+                                        .foregroundStyle(.blue)
+                                }
+
+                                Spacer()
+
+                                Image("styla")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 40)
+
+                                Spacer()
+
+                                Button(action: { /* menú */ }) {
+                                    Image(systemName: "line.3.horizontal")
+                                        .foregroundStyle(.black)
+                                        .imageScale(.large)
+                                }
                             }
+                            .padding(.horizontal, 16)
+                            .padding(.top, 12)
+
+                            if loading {
+                                ProgressView()
+                                    .tint(primaryColor)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.top, 6)
+                            }
+
+                            Spacer().frame(height: 16)
                         }
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 12)
-                        .background(backgroundColor)
 
-                        if loading {
-                            ProgressView()
-                                .tint(primaryColor)
-                                .frame(maxWidth: .infinity)
-                                .padding(.top, 6)
-                        }
-
-                        Spacer().frame(height: 16)
-                    }
-
-                    // ---------- Sección 2: Header + búsqueda ----------
-                    Group {
-                        HStack(alignment: .center) {
-                            Spacer().frame(width: 12)
-                            VStack(alignment: .leading) {
+                        // ---------- Grupo 2: saludo + buscador ----------
+                        Group {
+                            VStack(alignment: .leading, spacing: 4) {
                                 Text("¡Hola \(firstName)!")
                                     .font(.custom(abhayaRegular, size: 22))
                                     .foregroundStyle(.black)
@@ -94,135 +113,142 @@ struct StartScreen: View {
                                     .font(.custom(abhayaRegular, size: 16))
                                     .foregroundStyle(Color(hex: 0x4B4B4B))
                             }
-                        }
-                        .frame(maxWidth: .infinity)
+                            .frame(maxWidth: .infinity, alignment: .leading)
 
-                        Spacer().frame(height: 24)
+                            Spacer().frame(height: 20)
 
-                        HStack(spacing: 8) {
-                            Image(systemName: "magnifyingglass")
-                            TextField("Buscar", text: $searchText)
-                                .font(.custom(abhayaRegular, size: 16))
-                            Button(action: { /* voz */ }) { Image(systemName: "mic.fill") }
-                        }
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 10)
-                        .background(.white)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(Color(hex: 0xE0D9C5), lineWidth: 1)
-                        )
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-
-                        Spacer().frame(height: 24)
-                    }
-
-                    // ---------- Sección 3: Carrusel + indicadores ----------
-                    Group {
-                        TabView(selection: $currentPage) {
-                            ForEach(carouselItems.indices, id: \.self) { i in
-                                CarouselCard(
-                                    item: carouselItems[i],
-                                    primaryColor: primaryColor,
-                                    cardColor: cardColor
-                                )
-                                .tag(i)
+                            HStack(spacing: 8) {
+                                Image(systemName: "magnifyingglass")
+                                TextField("Buscar", text: $searchText)
+                                    .font(.custom(abhayaRegular, size: 16))
+                                Button(action: { }) {
+                                    Image(systemName: "mic.fill")
+                                }
                             }
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 10)
+                            .background(.white)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .strokeBorder(Color(hex: 0xE0D9C5), lineWidth: 1)
+                            )
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+
+                            Spacer().frame(height: 24)
                         }
-                        .frame(height: 180)
-                        .tabViewStyle(.page(indexDisplayMode: .never))
-                        .onReceive(timer) { _ in
-                            withAnimation(.easeInOut(duration: 0.6)) {
-                                currentPage = (currentPage + 1) % carouselItems.count
+
+                        // ---------- Grupo 3: carrusel ----------
+                        Group {
+                            TabView(selection: $currentPage) {
+                                ForEach(carouselItems.indices, id: \.self) { i in
+                                    CarouselCard(
+                                        item: carouselItems[i],
+                                        primaryColor: primaryColor,
+                                        cardColor: cardColor
+                                    )
+                                    .tag(i)
+                                }
                             }
-                        }
-
-                        HStack(spacing: 8) {
-                            ForEach(carouselItems.indices, id: \.self) { i in
-                                Circle()
-                                    .fill(i == currentPage ? primaryColor : Color(hex: 0xC7B197))
-                                    .frame(width: 8, height: 8)
+                            .frame(height: 180)
+                            .tabViewStyle(.page(indexDisplayMode: .never))
+                            .onReceive(timer) { _ in
+                                withAnimation(.easeInOut(duration: 0.6)) {
+                                    currentPage = (currentPage + 1) % carouselItems.count
+                                }
                             }
+
+                            HStack(spacing: 8) {
+                                ForEach(carouselItems.indices, id: \.self) { i in
+                                    Circle()
+                                        .fill(i == currentPage ? primaryColor : Color(hex: 0xC7B197))
+                                        .frame(width: 8, height: 8)
+                                }
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 8)
+
+                            Spacer().frame(height: 12)
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 8)
 
-                        Spacer().frame(height: 12)
-                    }
+                        // ---------- Grupo 4: categorías ----------
+                        Group {
+                            Text("Categorías")
+                                .font(.custom(abhayaRegular, size: 20))
+                                .foregroundStyle(.black)
+                                .padding(.bottom, 12)
 
-                    // ---------- Sección 4: Categorías ----------
-                    Group {
-                        Text("Categorías")
-                            .font(.custom(abhayaRegular, size: 20))
-                            .foregroundStyle(.black)
-                            .padding(.bottom, 12)
-
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 20) {
-                                ForEach(categories) { c in
-                                    VStack {
-                                        ZStack {
-                                            Circle().fill(cardColor).frame(width: 60, height: 60)
-                                            categoryIconView(c.icon)
-                                                .frame(width: 40, height: 40)
-                                                .foregroundStyle(primaryColor)
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 20) {
+                                    ForEach(categories) { c in
+                                        VStack {
+                                            ZStack {
+                                                Circle().fill(cardColor).frame(width: 60, height: 60)
+                                                categoryIconView(c.icon)
+                                                    .frame(width: 40, height: 40)
+                                                    .foregroundStyle(primaryColor)
+                                            }
+                                            Text(c.name)
+                                                .font(.custom(abhayaRegular, size: 14))
+                                                .foregroundStyle(.black)
                                         }
-                                        Text(c.name)
-                                            .font(.custom(abhayaRegular, size: 14))
-                                            .foregroundStyle(.black)
                                     }
                                 }
+                                .frame(maxWidth: .infinity, alignment: .leading)
                             }
-                            .frame(maxWidth: .infinity, alignment: .leading)
+
+                            Spacer().frame(height: 24)
                         }
 
-                        Spacer().frame(height: 24)
-                    }
-
-                    // ---------- Sección 5: CTA ----------
-                    Group {
-                        Button(action: { /* ir a vender */ }) {
-                            HStack {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("Quiero vender\nmi ropa")
-                                        .font(.custom(abhayaRegular, size: 18))
-                                        .foregroundStyle(.white)
-                                        .lineSpacing(4)
+                        // ---------- Grupo 5: CTA + espacio ----------
+                        Group {
+                            // 👇 aquí navegas a AddItemScreen
+                            Button(action: {
+                                onOpenAddItem()
+                            }) {
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("Quiero vender\nmi ropa")
+                                            .font(.custom(abhayaRegular, size: 18))
+                                            .foregroundStyle(.white)
+                                            .lineSpacing(4)
+                                    }
+                                    Spacer()
+                                    HStack(spacing: 8) {
+                                        Image(systemName: "dollarsign.circle.fill").imageScale(.large)
+                                        Image(systemName: "chevron.right").imageScale(.medium)
+                                    }
+                                    .foregroundStyle(.white)
                                 }
-                                Spacer()
-                                HStack(spacing: 8) {
-                                    Image(systemName: "dollarsign.circle.fill").imageScale(.large)
-                                    Image(systemName: "chevron.right").imageScale(.medium)
-                                }
-                                .foregroundStyle(.white)
+                                .padding(.horizontal, 20)
+                                .frame(height: 80)
+                                .frame(maxWidth: .infinity)
+                                .background(primaryColor)
+                                .clipShape(RoundedRectangle(cornerRadius: 15))
+                                .shadow(radius: 2)
                             }
-                            .padding(.horizontal, 20)
-                            .frame(height: 80)
-                            .frame(maxWidth: .infinity)
-                            .background(primaryColor)
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
-                            .shadow(radius: 2)
-                        }
 
-                        Spacer(minLength: 120) // espacio para la bottom bar
+                            // espacio para que no tape la barra
+                            Spacer(minLength: 120)
+                        }
                     }
+                    .padding(.horizontal, 16)
                 }
-                .padding(.horizontal, 16)
-                .background(backgroundColor)
+
+                // ====== BOTTOM BAR ABAJO CON OFFSET ======
+                BottomNavBar(
+                    selectedIndex: $selectedTabIndex,
+                    primaryColor: primaryColor,
+                    cardColor: cardColor,
+                    onTap: { idx in
+                        if idx == 1 { onOpenCamera() } // cámara
+                        selectedTabIndex = idx
+                    }
+                )
+                .offset(y: geo.size.height - 80 - geo.safeAreaInsets.bottom)
             }
-
-            // ---------- Bottom Bar ----------
-            BottomNavBar(
-                selectedIndex: $selectedTabIndex,
-                primaryColor: primaryColor,
-                cardColor: cardColor,
-                onTap: { idx in
-                    if idx == 1 { onOpenCamera() } // Cámara
-                    selectedTabIndex = idx
-                }
-            )
+            .background(backgroundColor)
+            .ignoresSafeArea(edges: .bottom)
         }
-        .ignoresSafeArea(edges: .bottom)
     }
 
     // Icono de categoría
@@ -230,9 +256,15 @@ struct StartScreen: View {
     private func categoryIconView(_ icon: CategoryIcon) -> some View {
         switch icon {
         case .sfSymbol(let name):
-            Image(systemName: name).resizable().scaledToFit().padding(8)
+            Image(systemName: name)
+                .resizable()
+                .scaledToFit()
+                .padding(8)
         case .asset(let name):
-            Image(name).resizable().scaledToFit().padding(8)
+            Image(name)
+                .resizable()
+                .scaledToFit()
+                .padding(8)
         }
     }
 }
@@ -258,10 +290,13 @@ private struct BottomNavBar: View {
                 .fill(cardColor)
                 .frame(height: 80)
                 .shadow(radius: 1)
+
             HStack(spacing: 0) {
                 ForEach(items.indices, id: \.self) { idx in
                     let isSelected = idx == selectedIndex
-                    Button { onTap(idx) } label: {
+                    Button {
+                        onTap(idx)
+                    } label: {
                         ZStack {
                             if isSelected {
                                 RoundedRectangle(cornerRadius: 25)
@@ -284,8 +319,6 @@ private struct BottomNavBar: View {
             .padding(.horizontal, 8)
         }
         .frame(maxWidth: .infinity)
-        .padding(.horizontal, 0)
-        .padding(.bottom, 0)
     }
 }
 
@@ -296,7 +329,6 @@ private struct CarouselCard: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            // Texto
             VStack(alignment: .leading, spacing: 6) {
                 Text(item.title)
                     .font(.custom(abhayaRegular, size: 22))
@@ -318,7 +350,6 @@ private struct CarouselCard: View {
             .padding(16)
             .frame(maxWidth: .infinity, alignment: .leading)
 
-            // Imagen
             Image(item.imageName)
                 .resizable()
                 .scaledToFill()
@@ -344,3 +375,4 @@ private extension Color {
                   opacity: alpha)
     }
 }
+
