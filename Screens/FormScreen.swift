@@ -191,16 +191,16 @@ struct FormScreen: View {
                     }
                     .padding(.horizontal, 24)
                     .padding(.top, 8)
-                    .padding(.bottom, 140)   // <— MÁS ESPACIO PARA QUE NO LO TAPE EL LOGO
+                    .padding(.bottom, 140)
                 }
                 .background(bg)
                 .scrollIndicators(.hidden)
 
-                // Logo inferior más pequeño
+                // Logo inferior
                 Image("stylalogo")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 180, height: 150)   // antes 200x200
+                    .frame(width: 180, height: 150)
                     .padding(.bottom, 6)
             }
 

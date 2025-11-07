@@ -14,7 +14,7 @@ struct LoginScreen: View {
     let onNavigateBack: () -> Void
     let onSuccessLogin: () -> Void   // ⬅️ NUEVO callback
 
-    // Init con valores por defecto (útil para Preview)
+    
     init(
         onNavigateBack: @escaping () -> Void = {},
         onSuccessLogin: @escaping () -> Void = {}
@@ -28,7 +28,7 @@ struct LoginScreen: View {
     @State private var password: String = ""
     @State private var showPassword: Bool = false
 
-    // Colores de la pantalla (equivalentes a Compose)
+    // Colores de la pantalla
     private let bg = Color(red: 0xF3/255, green: 0xE9/255, blue: 0xD4/255)   // #F3E9D4
     private let cardBg = Color(red: 0xF7/255, green: 0xEF/255, blue: 0xE5/255) // #F7EFE5
     private let primary = Color(red: 0x9C/255, green: 0x5A/255, blue: 0x2D/255) // #9C5A2D
@@ -122,8 +122,7 @@ struct LoginScreen: View {
                     }
 
                     Button(action: {
-                        // TODO: validar email/contraseña si lo deseas
-                        onSuccessLogin()        // ⬅️ dispara la navegación al Start
+                        onSuccessLogin()
                     }) {
                         Text("Entrar")
                             .font(.custom(abhayaRegular, size: 17))
@@ -147,7 +146,7 @@ struct LoginScreen: View {
     }
 }
 
-// MARK: - Subvistas
+// Subvistas
 
 private struct SocialOutlinedButton: View {
     let imageName: String

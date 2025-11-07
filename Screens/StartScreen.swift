@@ -29,7 +29,7 @@ private struct CarouselItem: Identifiable {
 struct StartScreen: View {
     // Navegación
     let onOpenCamera: () -> Void
-    let onOpenAddItem: () -> Void   // 👈 nueva closure
+    let onOpenAddItem: () -> Void
 
     // Colores
     private let primaryColor = Color(hex: 0x9C5A2D)
@@ -67,7 +67,7 @@ struct StartScreen: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
 
-                        // ---------- Grupo 1: Top bar ----------
+                        // ---------- Grupo 1 ----------
                         Group {
                             HStack {
                                 Button(action: {}) {
@@ -103,7 +103,7 @@ struct StartScreen: View {
                             Spacer().frame(height: 16)
                         }
 
-                        // ---------- Grupo 2: saludo + buscador ----------
+                        // ---------- Grupo 2 ----------
                         Group {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("¡Hola \(firstName)!")
@@ -137,7 +137,7 @@ struct StartScreen: View {
                             Spacer().frame(height: 24)
                         }
 
-                        // ---------- Grupo 3: carrusel ----------
+                        // ---------- Grupo 3 ----------
                         Group {
                             TabView(selection: $currentPage) {
                                 ForEach(carouselItems.indices, id: \.self) { i in
@@ -170,7 +170,7 @@ struct StartScreen: View {
                             Spacer().frame(height: 12)
                         }
 
-                        // ---------- Grupo 4: categorías ----------
+                        // ---------- Grupo 4 ----------
                         Group {
                             Text("Categorías")
                                 .font(.custom(abhayaRegular, size: 20))
@@ -199,9 +199,9 @@ struct StartScreen: View {
                             Spacer().frame(height: 24)
                         }
 
-                        // ---------- Grupo 5: CTA + espacio ----------
+                        // ---------- Grupo 5 ----------
                         Group {
-                            // 👇 aquí navegas a AddItemScreen
+                            
                             Button(action: {
                                 onOpenAddItem()
                             }) {
@@ -227,14 +227,12 @@ struct StartScreen: View {
                                 .shadow(radius: 2)
                             }
 
-                            // espacio para que no tape la barra
                             Spacer(minLength: 120)
                         }
                     }
                     .padding(.horizontal, 16)
                 }
 
-                // ====== BOTTOM BAR ABAJO CON OFFSET ======
                 BottomNavBar(
                     selectedIndex: $selectedTabIndex,
                     primaryColor: primaryColor,

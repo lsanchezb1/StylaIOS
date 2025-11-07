@@ -10,7 +10,6 @@ import Combine   // por si tu toolchain lo exige para ObservableObject/@Publishe
 
 @MainActor
 final class Router: ObservableObject {
-    // Usamos un array de rutas (compatible con iOS 14+)
     @Published var path: [Route] = []
 
     func navigate(_ route: Route) {

@@ -293,7 +293,7 @@ private struct OptionSheet: View {
     }
 }
 
-// dd/MM/aa “en vivo” (solo dígitos, inserta '/')
+// dd/MM/aa
 private func formatDateInput(_ input: String) -> String {
     let digits = input.filter(\.isNumber).prefix(6) // ddMMyy
     var out = ""
@@ -304,7 +304,7 @@ private func formatDateInput(_ input: String) -> String {
     return out
 }
 
-// Hex color helper
+// Color
 private extension Color {
     init(hex: UInt, alpha: Double = 1) {
         self.init(.sRGB,

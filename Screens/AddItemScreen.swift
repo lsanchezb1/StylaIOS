@@ -9,7 +9,7 @@ import SwiftUI
 
 private let abhayaRegular = "AbhayaLibre-Regular"
 
-// Colores locales (mismos hex que en Compose)
+// Colores locales
 private let primaryColor    = Color(red: 0x9C/255, green: 0x5A/255, blue: 0x2D/255)  // #9C5A2D
 private let backgroundColor = Color(red: 0xF3/255, green: 0xE9/255, blue: 0xD4/255)  // #F3E9D4
 private let cardColor       = Color(red: 0xE7/255, green: 0xDC/255, blue: 0xCC/255)  // #E7DCCC
@@ -18,10 +18,10 @@ struct AddItemScreen: View {
     // Navegación
     let onBack: () -> Void
 
-    // Estado (equivalente a remember { mutableStateOf() })
+    // Estado
     @State private var price: String = ""
     @State private var location: String = ""
-    @State private var pickedImage: Image? = nil   // placeholder de la foto
+    @State private var pickedImage: Image? = nil
 
     var body: some View {
         VStack(spacing: 0) {
@@ -32,7 +32,7 @@ struct AddItemScreen: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 100)
-                Spacer().frame(width: 44) // compensar el espacio del botón back
+                Spacer().frame(width: 44)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
@@ -106,7 +106,7 @@ struct AddItemScreen: View {
 
                     Spacer().frame(height: 40)
 
-                    // 4) Publicar
+                    // Publicar
                     Button {
                         // TODO: publicar
                     } label: {

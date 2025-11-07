@@ -40,7 +40,7 @@ struct Signup: View {
                     .frame(maxHeight: .infinity, alignment: .bottom)
 
 
-                    // Logo centrado (desplazado hacia abajo)
+                    // Logo centrado
                     Image("styla")
                         .resizable()
                         .scaledToFit()

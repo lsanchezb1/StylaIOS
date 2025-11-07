@@ -8,21 +8,21 @@ import SwiftUI
 import Combine
 import UIKit
 
-// --------- Modelo y constantes (equivalentes a tu data class/val) ---------
+// --------- Modelo y constantes ---------
 private struct Slide: Hashable {
     let imageName: String
     let caption: String
 }
 
 private let IMAGE_HEIGHT: CGFloat = 520
-private let abhayaRegular = "AbhayaLibre-Regular"   // nombre de la fuente
+private let abhayaRegular = "AbhayaLibre-Regular"
 
-// Paleta idéntica a Signup
+
 private let bgColor   = Color(hex: 0xEDE7D4)
 private let primary   = Color(hex: 0x9B5C2E)
 
 struct WelcomeScreen: View {
-    // Callbacks (igual que en Kotlin)
+    // Callbacks 
     let onCreateAccountClick: () -> Void
     let onLoginClick: () -> Void
  
@@ -92,7 +92,7 @@ struct WelcomeScreen: View {
 
                     Spacer().frame(height: 50)
 
-                    // Botones (mismo color primario que en Signup)
+                    // Botones
                     HStack(spacing: 12) {
                         PrimaryButton(
                             title: "Crear cuenta",
@@ -123,7 +123,7 @@ struct WelcomeScreen: View {
                         rightText: "Compra las prendas que\nte hagan falta de tus\ntiendas favoritas"
                     )
 
-                    // 👇 pon rightImage antes de leftText
+                    
                     PromoRow(
                         rightImage: "closet_photo",
                         leftText: "Vende las prendas\nque ya no uses"
